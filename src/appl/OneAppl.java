@@ -9,7 +9,7 @@ public class OneAppl {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new OneAppl(true);
+		new OneAppl();
 	}
 	
 	public OneAppl(){
