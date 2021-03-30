@@ -77,9 +77,12 @@ public class OneAppl {
 				}
 				else
 					ipclient = arg;
+				
+				continue;
 			}
 			else if(ipb) {
 				ipbroker = arg;
+				continue;
 			}
 			else if(mc) {
 				try {
