@@ -9,7 +9,7 @@ java -jar Broker.jar
 ## Client example
 
 ```
-java -jar Executavel.jar -m 1 -bp 8082 -bkp 8081 -ipc 31.95.164.48 -ip 34.95.164.48 -mc 4
+java -jar Executavel.jar -m 1 -bp 8084 -bkp 8082 -ipc 10.158.0.6 -ip 10.158.0.2 -mc 3
 ```
 
 ## Client arguments
