@@ -16,6 +16,8 @@ public class OneAppl {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		
+		
 		boolean maquinaFlag = false;
 		boolean bpc = false;
 		int basePortCli = 8081;
@@ -78,10 +80,12 @@ public class OneAppl {
 				else
 					ipclient = arg;
 				
+				ipc = false;
 				continue;
 			}
 			else if(ipb) {
 				ipbroker = arg;
+				ipb=false;
 				continue;
 			}
 			else if(mc) {
