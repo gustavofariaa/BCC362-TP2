@@ -38,5 +38,18 @@ public class Client {
 			return null;
 		}
 	}
-
+	
+	public Message receive(){
+		try{
+			
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(s.getInputStream()));
+			Message response = (Message) in.readObject();
+			
+			in.close();		
+			s.close();
+			return response;
+		}catch(Exception e){
+			return null;
+		}
+	}
 }

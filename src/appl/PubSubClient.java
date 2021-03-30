@@ -1,5 +1,6 @@
 package appl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -13,9 +14,11 @@ public class PubSubClient {
 	
 	private Server observer;
 	private ThreadWrapper clientThread;
-	
 	private String clientAddress;
 	private int clientPort;
+	
+	List<String> publishChannels;
+	List<String> subscribeChannels;
 	
 	public PubSubClient(){
 		//this constructor must be called only when the method
@@ -23,20 +26,58 @@ public class PubSubClient {
 		//otherwise the other constructor must be called
 	}
 	
-	public PubSubClient(String clientAddress, int clientPort){
+	public PubSubClient(String clientAddress, int clientPort, String pc, String sc) {
+		List<String> pcl = new ArrayList<String>();
+		List<String> scl = new ArrayList<String>();
+		
+		pcl.add(pc);
+		scl.add(sc);
+		
 		this.clientAddress = clientAddress;
 		this.clientPort = clientPort;
+		
+		this.publishChannels = pcl;
+		this.subscribeChannels = scl;
+		
+		observer = new Server(clientPort);
+		clientThread = new ThreadWrapper(observer);
+		clientThread.start();
+		
+	}
+	
+	private PubSubClient(String clientAddress, int clientPort, List<String> pc, List<String> sc){
+		this.clientAddress = clientAddress;
+		this.clientPort = clientPort;
+		
+		this.publishChannels = pc;
+		this.subscribeChannels = sc;
+		
 		observer = new Server(clientPort);
 		clientThread = new ThreadWrapper(observer);
 		clientThread.start();
 	}
 	
+	public String getSubChannel(Integer i) {
+		return subscribeChannels.get(i);
+	}
+	
+	public String getPubChannel(Integer i) {
+		return publishChannels.get(i);
+	}
+	
+	public String recieve(String brokerAddress, int brokerPort) {
+
+		Client subscriber = new Client(brokerAddress, brokerPort);
+		return subscriber.receive().getContent();
+	}
+	
 	public void subscribe(String brokerAddress, int brokerPort){
-					
+		
 		Message msgBroker = new MessageImpl();
 		msgBroker.setBrokerId(brokerPort);
 		msgBroker.setType("sub");
 		msgBroker.setContent(clientAddress+":"+clientPort);
+		
 		Client subscriber = new Client(brokerAddress, brokerPort);
 		System.out.println(subscriber.sendReceive(msgBroker).getContent());
 	}
@@ -52,6 +93,7 @@ public class PubSubClient {
 	}
 	
 	public void publish(String message, String brokerAddress, int brokerPort){
+		
 		Message msgPub = new MessageImpl();
 		msgPub.setBrokerId(brokerPort);
 		msgPub.setType("pub");
@@ -63,6 +105,7 @@ public class PubSubClient {
 	}
 	
 	public List<Message> getLogMessages(){
+		
 		return observer.getLogMessages();
 	}
 
@@ -73,6 +116,21 @@ public class PubSubClient {
 	}
 		
 	public void startConsole(){
+		
+		//maquina 1 - publica no canal 1
+		// se inscreve no canal 4
+		
+		//canal1_TOKEN_asdmkasldmalsdmasdlm
+		//maquina 2 : <- canal1_TOKEN_asdjiaosdjioasdj
+		//token = true;
+		//canal1_TOKEN_sadkaosdasod
+		
+		//maquina 2 - publica no canal 2
+		// se inscreve no canal 1
+		
+		//maquina 3 - publica no canal 3
+		// se inscreve no canal 2
+		
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		System.out.print("Enter the client address (ex. localhost): ");
 		String clientAddress = reader.next();
