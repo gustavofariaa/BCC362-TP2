@@ -1,5 +1,11 @@
 # Simple Distributed Pub/Sub
 
+## [Token Ring](https://en.wikipedia.org/wiki/Token_Ring)
+
+Token Ring is a [computer networking](https://en.wikipedia.org/wiki/Computer_network) technology used to build [local area networks](https://en.wikipedia.org/wiki/Local_area_network). It was introduced by [IBM](https://en.wikipedia.org/wiki/IBM) in 1984, and standardized in 1989 as [IEEE](https://en.wikipedia.org/wiki/IEEE_Standards_Association) 802.5.
+
+![Token Ring](https://www.cse.iitk.ac.in/users/dheeraj/cs425/fig.lec07/trhubani.gif)
+
 ## Broker example
 
 ```
