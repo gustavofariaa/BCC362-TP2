@@ -4,6 +4,8 @@
 
 Token Ring is a [computer networking](https://en.wikipedia.org/wiki/Computer_network) technology used to build [local area networks](https://en.wikipedia.org/wiki/Local_area_network). It was introduced by [IBM](https://en.wikipedia.org/wiki/IBM) in 1984, and standardized in 1989 as [IEEE](https://en.wikipedia.org/wiki/IEEE_Standards_Association) 802.5.
 
+It uses a token that is passed around a logical ring of workstations or servers. This [token passing](https://en.wikipedia.org/wiki/Token_passing) is a [channel access method](https://en.wikipedia.org/wiki/Channel_access_method) providing fair access for all stations, and eliminating the [collisions](https://en.wikipedia.org/wiki/Collision_(telecommunications)) of [contention](https://en.wikipedia.org/wiki/Contention_(telecommunications))-based access methods.
+
 ![Token Ring](https://www.cse.iitk.ac.in/users/dheeraj/cs425/fig.lec07/trhubani.gif)
 
 ## Broker example
