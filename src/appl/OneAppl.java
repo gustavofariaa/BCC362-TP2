@@ -16,7 +16,7 @@ public class OneAppl {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
+		//flags do args:
 		
 		boolean maquinaFlag = false;
 		boolean bpc = false;
@@ -146,6 +146,8 @@ public class OneAppl {
 					
 			}
 		}
+		
+		//main
 		new OneAppl(maq,machineCount,ipclient,basePortCli + maq,ipbroker,basePortBroker);
 		
 	}
@@ -158,25 +160,22 @@ public class OneAppl {
 	public OneAppl(Integer clientNumber, Integer clientCount, String clientAddress, Integer clientPort,
 			String brokerAddress, Integer brokerPort){
 
-
-
-		System.out.println("MAQ: " + maq);
-		System.out.println("CLIENT NMB: " + clientNumber);
-		System.out.println("CLIENT CNT: " + clientCount);
-		System.out.println("CLIENT ADR: " + clientAddress);
-		System.out.println("CLIENT PORT: " + clientPort);
-		System.out.println("BROKER ADR: " + brokerAddress);
-		System.out.println("BROKER PORT: " + brokerPort);
-		
+		//Se for a máquina 1, entregar o Token pra ela, porque é a máquina inicial
 		boolean startToken = clientNumber == 1;
 		
+		//canais nos quais a máquina N vai se inscrever e publicar
+		//maquina N se inscreve no canal N-1 (se N for 1, então se inscreve no canal M, onde M é o número de máquinas no token ring)
+		//maquina N publica no canal N
 		String pubChn = "channel_" + clientNumber;
 		String subChn = "channel_" + ( clientNumber == 1? clientCount : clientNumber - 1 );
- 		PubSubClient client = new PubSubClient(clientAddress, clientPort, pubChn, subChn);
 		
- 		String msg = "mensagem da maquina " + clientNumber;
+		//instancia o cliente
+ 		PubSubClient client = new PubSubClient(clientAddress, clientPort, pubChn, subChn);
  		
+ 		//se conecta no broker
 		client.subscribe(brokerAddress, brokerPort);
+		
+		//cria a thread que vai ficar escutando e publicando
 		Thread access = new ThreadWrapper(client, "mensagem_" + clientNumber, brokerAddress, brokerPort, true, DEBUG);
 
 		access.start();
@@ -223,14 +222,16 @@ public class OneAppl {
 				try {
 					this.sleep(1000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
+					
 				}
+				
 				if(this.hasToken() || startToken) {
 					startToken = false;
-					//System.out.println(insertChannel(pubChannel,msg) + "," + host + "," + port);
 					msg=newMessage(msg);
+					
+					//insere o canal na mensagem. O formato dela vai ficar "canal_X/conteúdo da mensagem"
 					String fullMsg = insertChannel(pubChannel,msg);
+					//publica a mensagem no canal "canal_N"
 					c.publish( fullMsg, host, port ); 
 					if(this.debug)
 						System.out.println("ENVIOU: " + fullMsg);
@@ -239,6 +240,7 @@ public class OneAppl {
 			}
 		}
 		
+		//método pra simular uma operação que a máquina vai fazer com a mensagem
 		private String newMessage(String msg) {
 			try {
 				String[] recieved = getMessage().split("");
@@ -252,11 +254,13 @@ public class OneAppl {
 			}
 		}
 		
+		//pega a última mensagem no log do broker
 		private String getMessage() {
 			List<Message> logClient= c.getLogMessages();
 			return logClient.get(logClient.size()-1).getContent().split("/")[1];
 		}
 		
+		//verifica se a máquina está atualmente com o token. Se estiver, então ela pode publicar, se não espera.
 		private boolean hasToken() {
 
 			List<Message> logClient= c.getLogMessages();
