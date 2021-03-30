@@ -155,6 +155,9 @@ public class OneAppl {
 			String brokerAddress, Integer brokerPort){
 
 
+		System.out.println("CLIENT ADR: " + clientAddress);
+		System.out.println("BROKER ADR: " + brokerAddress);
+		
 		boolean startToken = clientNumber == 1;
 		
 		String pubChn = "channel_" + clientNumber;
