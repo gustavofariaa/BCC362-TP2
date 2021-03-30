@@ -155,8 +155,14 @@ public class OneAppl {
 			String brokerAddress, Integer brokerPort){
 
 
+
+		System.out.println("MAQ: " + maq);
+		System.out.println("CLIENT NMB: " + clientNumber);
+		System.out.println("CLIENT CNT: " + clientCount);
 		System.out.println("CLIENT ADR: " + clientAddress);
+		System.out.println("CLIENT PORT: " + clientPort);
 		System.out.println("BROKER ADR: " + brokerAddress);
+		System.out.println("BROKER PORT: " + brokerPort);
 		
 		boolean startToken = clientNumber == 1;
 		
